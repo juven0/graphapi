@@ -1,0 +1,55 @@
+type User {
+  id: ID!
+  username: String!
+  email: String!
+  conversations: [Conversation!]!
+  groups: [Group]
+}
+
+type Message {
+  id: ID!
+  content: String!
+  senderId: ID!
+  sender: User!
+  conversationId: ID
+  conversation: Conversation
+  groupId: ID
+  group: Group
+  createdAt: String!
+}
+
+type Conversation {
+  id: ID!
+  participants: [User!]!
+  messages: [Message!]!
+  updatedAt: String!
+}
+
+type Group {
+  id: ID!
+  name: String!
+  members: [User!]!
+  messages: [Message!]!
+  updatedAt: String!
+}
+
+type Query {
+  conversations: [Conversation!]!
+  conversation(id: ID!): Conversation
+  messages(conversationId: ID!): [Message!]!
+  groups: [Group]
+  group(id: ID!): Group
+  groupMessages(groupId: ID!): [Message!]!
+}
+
+type Mutation {
+  createConversation(participantIds: [ID!]!): Conversation!
+  sendMessageToConversation(conversationId: ID!, content: String!): Message!
+  createGroup(name: String!, memberIds: [ID!]!): Group
+  sendMessageToGroup(groupId: ID!, content: String!): Message
+}
+
+type Subscription {
+  newMessageInConversation(conversationId: ID!): Message!
+  newMessageInGroup(groupId: ID!): Message
+}
