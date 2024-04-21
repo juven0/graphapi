@@ -23,7 +23,12 @@ const server = new ApolloServer({
 const port = process.env["PORT"]
 await startStandaloneServer(server, {
     listen: {port}
+}).then(()=>{
+    console.log(`🚀  Server ready at: http://localhost:${port}/graphql`);
+}).catch((err:Error)=>{
+    console.log(err)
+    return
 })
 
-console.log(`🚀  Server ready at: http://localhost:${port}/graphql`);
+
 
