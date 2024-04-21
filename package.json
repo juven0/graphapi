@@ -2,6 +2,9 @@
   "name": "graphapi",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "dev": "bun index.ts --watch"
+  },
   "devDependencies": {
     "@types/bun": "^1.1.0"
   },
