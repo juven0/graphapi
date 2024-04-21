@@ -1,7 +1,7 @@
 import { ApolloServer } from "@apollo/server"
 import { startStandaloneServer } from "@apollo/server/standalone";
 import {readFileSync} from "fs"
-import mongoose from "mongoose";
+import mongoose, { Query } from "mongoose";
 
 
 await mongoose.connect(`mongodb+srv://${process.env["DB_USER_NAME"]}:${process.env["PASSWORD"]}@graphcluster.ajalihu.mongodb.net/`)
@@ -12,7 +12,11 @@ await mongoose.connect(`mongodb+srv://${process.env["DB_USER_NAME"]}:${process.e
 })
 const typeDefs = readFileSync('./schema.graphql', {encoding: 'utf-8'})
 const resolvers  = {
-
+    Query:{
+        users:() =>{
+            
+        }
+    }
 }
 
 const server = new ApolloServer({
@@ -20,15 +24,13 @@ const server = new ApolloServer({
     resolvers
 });
 
-const port = process.env["PORT"]
-await startStandaloneServer(server, {
-    listen: {port}
-}).then(()=>{
-    console.log(`🚀  Server ready at: http://localhost:${port}/graphql`);
+await startStandaloneServer(server, {}).then((url)=>{
+    console.log(`🚀  Server ready at: ${url.url}graphql`);
 }).catch((err:Error)=>{
     console.log(err)
     return
 })
+
 
 
 
